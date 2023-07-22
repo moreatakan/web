@@ -1,0 +1,96 @@
+
+.p1 {
+    font-size: 40px;
+    text-decoration: underline;
+
+}
+
+.p2 {
+    text-align: center;
+    font-size: 25px;
+    margin-bottom: 30px;
+}
+
+.p3 {
+    font-size: 20px;
+}
+.bg1 {
+    
+    background-size: 100%;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+}
+
+.col-md-4 img {
+    width: 240px;
+    height: 240px;
+    }
+
+.overlay {
+    position: fixed;
+    overflow: hidden;
+    width: 0;
+    height: 0;
+    top:0;
+    left: 0;
+    background: rgba(0, 0, 0, 0);
+    z-index: 9999;
+    transition: 0.8s;
+    text-align: center;
+    padding:50px 0;
+}
+.overlay:target {
+    width: auto;
+    height: auto;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, .8);
+}
+.col-md-4 .overlay img {
+    
+    width: auto;
+    height: auto;
+    border-radius: 0%;
+    max-height: 100%;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, .8);
+}
+.col-md-4  span {
+    display: block;
+    position: absolute;   
+    width: 240px;
+    height: 240px;
+    background-color: rgba(200, 200, 200, .5);
+    color: #333;
+    text-shadow: 3px 3px 3px #ddd;
+    transition: .3s;
+    transform: scale(0) rotate(0);
+}
+.col-md-4 a:hover span {
+    transform: scale(1) rotate(1);
+}
+.overlay .close {
+    position: absolute;
+    top: 20px;
+    left: 48%;
+    color: white;
+    text-decoration: none;
+    background-color: blue;
+    border: 2px solid;
+    line-height: 20px;
+    
+}
+.overlay:target img {
+    animation: ZoomdanFade 1s;
+}
+@keyframes ZoomdanFade {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(270deg);
+        opacity: 1;
+    }
+}
+
