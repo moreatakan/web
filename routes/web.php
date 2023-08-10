@@ -1,12 +1,14 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\SlideController;
-use App\Http\Controllers\SliderController;
-use App\Models\Post;
+use App\Http\Controllers\CategoryizinController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\SliderController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\IzinController;
+use App\Http\Controllers\SpelayananController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,10 +20,13 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/',[HomeController::class,'index']);
+Route::get('/home/detailpost/{post:slug}',[HomeController::class,'show']);
+Route::get('/perizinan/jenisizin',[HomeController::class,'perizinan']);
+Route::get('/perizinan/sp',[HomeController::class,'standarpelayanan']);
 
-
-Route::resource('/',PostController::class);
-
+Route::get('/dashboard/posts/slug',[PostController::class, 'chekSlug']);
+Route::resource('/dashboard/posts',PostController::class)->middleware('isLogin');
 
 Route::get('/dashboard', [DashboardController::class,'index'])->middleware('isLogin');
 
@@ -35,9 +40,16 @@ Route::get('/dashboard', [DashboardController::class,'index'])->middleware('isLo
 // });
 
 
-
 Route::get('/admin',[LoginController::class,'index']);
 Route::post('/admin/login', [LoginController::class,'login']);
 Route::post('/logout', [LoginController::class,'logout']);
 
 Route::resource('/dashboard/slider',SliderController::class);
+
+Route::get('/dashboard/izin/slug',[IzinController::class, 'chekSlug']);
+Route::resource('/dashboard/izin',IzinController::class);
+
+Route::get('/dashboard/categoryizin/slug',[CategoryizinController::class, 'chekSlug']);
+Route::resource('/dashboard/categoryizin',CategoryizinController::class);
+
+Route::resource('/dashboard/sp',SpelayananController::class);
