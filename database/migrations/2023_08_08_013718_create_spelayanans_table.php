@@ -13,16 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('spelayanan', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
+            $table->foreignId('izin_id');
+            $table->foreignId('category_id');
+            $table->text('persyaratan');
+            $table->text('file');
             $table->timestamps();
-            $table->string('judul')->unique();
-            $table->string('slug')->unique();
-            $table->text('excerpt');
-            $table->text('body');
-            $table->string('image');
-            $table->timestamp('published_at')->nullable();
         });
     }
 
@@ -33,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('spelayanans');
     }
 };

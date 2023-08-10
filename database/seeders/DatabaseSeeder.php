@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Categoryizin;
+use App\Models\Izin;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -25,7 +28,11 @@ class DatabaseSeeder extends Seeder
         'password' => Hash::make('123456')
     ]);
 
-    Post::factory(20)->create();
+    // Post::factory(20)->create();
+
+    // Izin::factory(20)->create();
+
+    // Categoryizin::factory(5)->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
