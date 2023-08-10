@@ -1,43 +1,34 @@
+
 @extends('frontend/layouts/main')
     
-    @section('content')
+@section('content')
     
-    <div class=" space-small">
+    <div class="space-medium mt20">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-md-8">
-                    <div class="row">
-                    
-                    
-                        <article class="mb-5 border-bottom pb-4">
+            <div class="col-md-8">
 
-                            <h2>{{ $post->judul }}</h2>
-                        
-                            <p>By. <a href="" class="text-decoration-none">Rahmat Hidayah</a></p>
-                            {{ $post->body }}
-                        
-                        </article>
-                    
-                    </div>
-                    <a href="/home" class="btn btn-secondary"><< Kembali</a>
-                </div>
-            
-            {{-- Bagian Sidebar --}}
-            
-            <div class="col-lg-4 col-md-4">
-                <div class="row">
-                    
-                        <h3 class="widget-title text-center">Kepala Dinas</h3>
-                    
-                </div>
-            </div>
-
-            {{-- Akhir Sidebar --}}
+                <h1 class="mb-3">   
+                    {{ $post->judul }}
+                </h1>
+                <p>
+                    <small class="text-muted">
+                    By: <a href="" class="text-decoration-none text-primary">{{ $post->user->name }}</a>
+                    {{ $post->created_at }}
+                </small>
+                </p>
+                <a href="/" class="btn btn-success">
+                    <i class="bibi-arrow-left-short"></i ><< Kembali
+                </a>
+                <img src="{{ asset('storage/'.$post->image) }}" alt="" width="700px" height="400px" class="img-fluid mt-3">
+                <article class="my-3 fs-6">
+                    {!! $post->body !!}
+                </article>
 
             </div>
         </div>
     </div>
-    @endsection
+    
+@endsection
 
 
 

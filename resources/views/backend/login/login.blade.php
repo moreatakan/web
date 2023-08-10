@@ -1,8 +1,8 @@
 @extends('backend/login/layouts/main')
 
 @section('container')
-<div class="container mb-1 min-vh-100" style="background: #cbe0b4">
-
+<div class="container align-center">
+  
   <div class="row justify-content-center">
       <div class="col-md-4">
   
