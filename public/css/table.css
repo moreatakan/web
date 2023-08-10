@@ -1,0 +1,17 @@
+.tombol{
+    outline: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor:pointer;
+    margin-bottom: 5px;
+}
+
+.container1{
+    background-color: chartreuse;
+    margin: 0;
+    padding: 0;
+}
+.container2 {
+    display: none;
+    background-color: aquamarine;
+}

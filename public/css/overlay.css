@@ -1,0 +1,32 @@
+.container-overlay{
+    
+    background: no-repeat center/100% 100% url(https://source.unsplash.com/HkTMcmlMOUQ);
+    height:250px;
+    opacity: 0.5;
+    
+}
+
+
+.container-overlay .konten-overlay {
+    background-color: #614ad3;
+    position:relative;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    opacity: 0.8;
+}
+
+.container-overlay .konten-overlay:hover{
+    opacity: 1;
+    background-color:#9c195a;
+    opacity: 0.9;
+}
+
+
+.container-overlay p{
+    color: #fff;
+    font-size: 0.8em;
+}
