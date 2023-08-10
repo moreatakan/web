@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use App\Http\Requests\StorePostRequest;
-use App\Http\Requests\UpdatePostRequest;
-use App\Models\Slide;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use \Cviebrock\EloquentSluggable\Services\SlugService;
+use illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -14,15 +15,17 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        
-        return view('frontend/home',[
+
+        $pagination = 10;
+        $post = Post::where('user_id', auth()->user()->id)->latest()->paginate($pagination);        
+
+        return view('backend/dashboard/post/posts',[
         'title' => 'Dinas Penanaman Modal dan Pelayanan Terpadu Satu Pintu',
-        'posts' => Post::all(),
-        'slider' => Slide::all()
-    ]);
+        'posts' => $post
+    ])->with( key: 'i', value: ($request->input( key: 'page', default: 1)-1) * $pagination);
 
     }
 
@@ -34,6 +37,7 @@ class PostController extends Controller
     public function create()
     {
         //
+        return view('backend/dashboard/post/create_post');
     }
 
     /**
@@ -42,9 +46,32 @@ class PostController extends Controller
      * @param  \App\Http\Requests\StorePostRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorePostRequest $request)
+    public function store(Request $request)
     {
-        //
+
+        $validatedata = $request->validate([
+            'judul' => 'required',
+            'slug' => 'required',
+            'body' => 'required',
+            'image' => 'image|file|mimes:png,jpg,JPEG'
+            
+        ]);
+
+        $validatedata['user_id'] = auth()->user()->id;
+        $validatedata['excerpt'] = Str::limit(strip_tags($request->body),200);
+        
+        if ($request->file('image')) {
+            $validatedata['image'] = $request->file('image')->store('posts-images'); 
+        }
+
+
+        Post::create($validatedata);
+
+        return redirect('/dashboard/posts')->with('success','Post baru telah ditambahkan');
+        
+
+        
+        
     }
 
     /**
@@ -53,14 +80,11 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show(Post $post)
     {
-        $post = Post::where('slug', $slug)->first();
-        return view('frontend/detail_post',[
-            'title' => 'detail post',
-            'post' => $post            
+        return view('backend/dashboard/post/detail_post',[
+            'post' => $post
         ]);
-
     }
 
     /**
@@ -72,6 +96,9 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         //
+        return view('backend/dashboard/post/edit_post',[
+            'post' => $post
+        ]);
 
     }
 
@@ -82,9 +109,27 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatePostRequest $request, Post $post)
+    public function update(Request $request, Post $post)
     {
-        //
+        
+        $rules = [
+            'judul' => 'required',
+            'body' => 'required'
+            
+        ];
+
+        if($request->slug != $post->slug)
+        {
+            $rules['slug'] =  'required|unique:posts';
+        }
+
+        $validatedata = $request->validate($rules);
+        $validatedata['user_id'] = auth()->user()->id;
+        $validatedata['excerpt'] = Str::limit(strip_tags($request->body),200);
+        
+        Post::where('id',$post->id)->update($validatedata);
+
+        return redirect('/dashboard/posts')->with('success','Data post berhasil diupdate');
     }
 
     /**
@@ -95,6 +140,16 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        
+        Post::destroy($post->id);
+        return redirect('/dashboard/posts')->with('success','Data post berhasil dihapus');
+    }
+
+    public function chekSlug(Request $request)
+    {   
+        
+        $slug = SlugService::createSlug(Post::class, 'slug', $request->judul);
+        return response()->json(['slug' => $slug]);
+        
     }
 }

@@ -6,18 +6,22 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model
+class Categoryizin extends Model
 {
     use HasFactory;
     use Sluggable;
-
+    
     protected $guarded = ['id'];
-    protected $table = 'posts';
-    protected $with = ['user'];
+    protected $table = 'categoryizin';
 
-    public function User()
+    public function Izin()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(Izin::class);
+    }
+
+    public function sp()
+    {
+        return $this->hasOne(Spelayanan::class);
     }
 
     public function getRouteKeyName()
@@ -29,7 +33,7 @@ class Post extends Model
     {
         return [
             'slug' => [
-                'source' => 'judul'
+                'source' => 'namakategori'
             ]
         ];
     }

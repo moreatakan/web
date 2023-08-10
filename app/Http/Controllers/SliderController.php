@@ -13,12 +13,15 @@ class SliderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+
+        $pagination = 10;
+        $slide = Slide::latest()->paginate($pagination);   
         return view('backend/dashboard/slider/slider',[
-            'slides' => Slide::latest()->paginate(5)
-        ]);
+            'slides' => $slide
+        ])->with( key: 'i', value :($request->input(key:'page', default: 1)-1) * $pagination );
     }
 
     /**

@@ -2,22 +2,28 @@
 
 namespace App\Models;
 
+use App\Models\Categoryizin;
+use App\Models\standarpelayanan;
+use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model
+class Izin extends Model
 {
     use HasFactory;
     use Sluggable;
 
     protected $guarded = ['id'];
-    protected $table = 'posts';
-    protected $with = ['user'];
+    protected $table='izin';
 
-    public function User()
+    public function category()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Categoryizin::class, 'categoryizin_id');
+    }
+
+    public function spelayanan()
+    {
+        return $this->hasOne(Spelayanan::class);
     }
 
     public function getRouteKeyName()
@@ -29,8 +35,9 @@ class Post extends Model
     {
         return [
             'slug' => [
-                'source' => 'judul'
+                'source' => 'namaizin'
             ]
         ];
     }
+
 }
